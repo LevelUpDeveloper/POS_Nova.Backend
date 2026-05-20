@@ -48,14 +48,14 @@ namespace POS_Nova.Application.Features.Auth.UseCases
             //Console.WriteLine($"Hash DB: {user.PasswordHash}");
             var validPassword = _hasher.Verify(loginRequest.Password, user.PasswordHash);
 
-            //if (!validPassword)
-            //{
-            //    user.RegisterFailedAttempt();
+            if (!validPassword)
+            {
+                user.RegisterFailedAttempt();
 
-            //    await _users.UpdateAsync(user);
+                await _users.UpdateAsync(user);
 
-            //    throw new Exception("Invalid credentials");
-            //}
+                throw new Exception("Invalid credentials");
+            }
 
             // 4. Reset attempts
             user.SuccessfulLogin();
@@ -70,7 +70,7 @@ namespace POS_Nova.Application.Features.Auth.UseCases
             {
                 Token = token,
                 UserName = user.UserName,
-                Role = user.UserRole
+                Role = user.UserRoles
                     .Select(ur => ur.Role.Name)
                     .ToList()
             };

@@ -24,7 +24,7 @@ namespace POS_Nova.Infrastructure.Repositories
         {
 
             return await _context.User
-                .Include(u => u.UserRole)
+                .Include(u => u.UserRoles)
                     .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u =>
                     u.Email == emailOrUserName

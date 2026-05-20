@@ -30,7 +30,7 @@ namespace POS_Nova.Infrastructure.Services
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var RolesClaims = user.UserRole
+            var RolesClaims = user.UserRoles
                 .Select(ur => new Claim(
                     ClaimTypes.Role,
                     ur.Role.Name))

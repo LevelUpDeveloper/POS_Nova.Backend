@@ -11,7 +11,6 @@ namespace POS_Nova.Application.Interfaces.Persistence
     {
         // Login
         Task<User?> GetByEmailOrUserNameAsync(string emailOrUserName);
-
         Task UpdateAsync(User user);
 
 

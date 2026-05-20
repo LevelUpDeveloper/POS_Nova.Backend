@@ -10,6 +10,21 @@ namespace POS_Nova.Domain.Entities
     [Table("User", Schema = "Security")]
     public class User
     {
+
+        public static User Create(string userName, string email, string passwordHash)
+        {
+            return new User
+            {
+                UserName = userName,
+                Email = email,
+                PasswordHash = passwordHash,
+                IsActive = true,
+                FailedLoginAttempts = 0,
+                IsLocked = false
+            };
+        }
+
+
         public int Id { get; private set; }
         public string UserName { get; private set; }
         public string PasswordHash { get; private set; }
@@ -19,7 +34,19 @@ namespace POS_Nova.Domain.Entities
         public int FailedLoginAttempts { get; private set; }
         public bool IsLocked { get; private set; }
         public DateTime? LockedUntil { get; private set; }
-        public ICollection<UserRole> UserRole { get; private set; }
+
+        //public ICollection<UserRole> UserRole { get; private set; }
+        private readonly List<UserRole> _userRoles = new();
+        public IReadOnlyCollection<UserRole> UserRoles
+            => _userRoles.AsReadOnly();
+
+        public void AssignRole(Role role)
+        {
+            if (_userRoles.Any(x => x.RoleId == role.Id))
+                return;
+
+            _userRoles.Add(UserRole.Create(this, role));
+        }
 
 
         // =========================================

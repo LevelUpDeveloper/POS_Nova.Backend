@@ -10,6 +10,19 @@ namespace POS_Nova.Domain.Entities
     [Table("UserRole", Schema = "Security")]
     public class UserRole
     {
+
+        public static UserRole Create(User user, Role role)
+        {
+            return new UserRole
+            {
+                User = user,
+                UserId = user.Id,
+                Role = role,
+                RoleId = role.Id
+            };
+        }
+
+
         public int id { get; private set; }
         public int UserId { get; private set; }
         public User User { get; private set; }

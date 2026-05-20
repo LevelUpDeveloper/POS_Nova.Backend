@@ -1,13 +1,16 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using POS_Nova.Application.Features.Auth.UseCases;
+using POS_Nova.Application.Features.Auth.Validators;
 using POS_Nova.Application.Interfaces.Persistence;
 using POS_Nova.Application.Interfaces.Services;
 using POS_Nova.Infrastructure.DependencyInjection;
 using POS_Nova.Infrastructure.Repositories;
 using POS_Nova.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 
 namespace POS_Nova.Api
@@ -18,11 +21,12 @@ namespace POS_Nova.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
 
-            // Swagger configuration for JWT Authentication
+            // Controllers 
+            builder.Services.AddControllers();
+
+            // Swagger  
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -52,12 +56,17 @@ namespace POS_Nova.Api
             });
 
 
+            // FluentValidation
+            builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterRequestDtoValidator>();
+            builder.Services.AddFluentValidationAutoValidation();
+
             // Use Cases
             builder.Services.AddScoped<LoginService>();
             builder.Services.AddScoped<RegisterUserService>();
 
             // Repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository > ();
 
             // Services
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
