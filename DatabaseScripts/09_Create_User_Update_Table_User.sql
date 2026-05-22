@@ -18,7 +18,7 @@ BEGIN TRY
 	Create User
 	========================================================= */
 	INSERT INTO Security.Role (Name, Description, IsActive)
-	VALUES ('Admin', 'Administrator role', 1);
+	VALUES ('Admin', 'Acceso completo al sistema. Puede gestionar usuarios, roles, configuración general, productos, inventario y todas las operaciones del negocio.', 1);
 	
 	
 	INSERT INTO Security.[User]
@@ -56,6 +56,11 @@ BEGIN TRY
 	    Role NVARCHAR(50) NOT NULL CONSTRAINT DF_User_Role DEFAULT 'User'
 
 
+	/* =========================================================
+	Update table Role 
+	========================================================= */
+	ALTER TABLE Security.Role
+	ALTER COLUMN Description NVARCHAR(500)
 
 
 
