@@ -1,13 +1,14 @@
-﻿using System;
+﻿using POS_Nova.Application.Exceptions;
+using POS_Nova.Application.Features.Auth.DTOs;
+using POS_Nova.Application.Interfaces.Persistence;
+using POS_Nova.Application.Interfaces.Services;
+using POS_Nova.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using POS_Nova.Application.Features.Auth.DTOs;
-using POS_Nova.Application.Interfaces.Persistence;
-using POS_Nova.Application.Interfaces.Services;
-using POS_Nova.Domain.Entities;
 
 
 namespace POS_Nova.Application.Features.Auth.UseCases
@@ -34,18 +35,16 @@ namespace POS_Nova.Application.Features.Auth.UseCases
 
             if (user == null)
             {
-                    throw new Exception("Invalid credentials");               
+                throw new UnauthorizedException("Invalid credentials");
             }
 
             // 2. Check look
             if (!user.CanLogin())
             {
-                throw new Exception("User locked");
+                throw new ForbiddenException("User locked");
             }
 
             // 3. Validate password
-            //Console.WriteLine($"Password input: {loginRequest.Password}");
-            //Console.WriteLine($"Hash DB: {user.PasswordHash}");
             var validPassword = _hasher.Verify(loginRequest.Password, user.PasswordHash);
 
             if (!validPassword)
@@ -54,7 +53,7 @@ namespace POS_Nova.Application.Features.Auth.UseCases
 
                 await _users.UpdateAsync(user);
 
-                throw new Exception("Invalid credentials");
+                throw new UnauthorizedException("Invalid credentials");
             }
 
             // 4. Reset attempts

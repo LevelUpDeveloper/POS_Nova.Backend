@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using POS_Nova.Application.Exceptions;
 
 namespace POS_Nova.Application.Features.Auth.UseCases
 {
@@ -32,7 +33,7 @@ namespace POS_Nova.Application.Features.Auth.UseCases
 
             if (registeredEmailExists)
             {
-                throw new Exception("Ya se encuentra registrado ese correo");
+                throw new ConflictException("Ya se encuentra registrado ese correo");
             }
 
 
@@ -40,7 +41,7 @@ namespace POS_Nova.Application.Features.Auth.UseCases
 
             if (registeredUserNameExists)
             {
-                throw new Exception("Nombre de usuario ya registrado");
+                throw new ConflictException("Nombre de usuario ya registrado");
             }
 
 
@@ -50,7 +51,13 @@ namespace POS_Nova.Application.Features.Auth.UseCases
             var user = User.Create(userRegisterRequest.UserName, userRegisterRequest.Email, passwordMatch);
 
            
-            var role = await _roleRepository.GetByName(userRegisterRequest.Role);            
+            var role = await _roleRepository.GetByName(userRegisterRequest.Role);     
+            
+            if (role == null)
+            {
+                throw new NotFoundException("Rol no existente");
+            }
+
             user.AssignRole(role);
 
 

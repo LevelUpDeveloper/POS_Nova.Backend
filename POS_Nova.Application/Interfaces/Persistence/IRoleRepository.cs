@@ -10,5 +10,8 @@ namespace POS_Nova.Application.Interfaces.Persistence
     public interface IRoleRepository
     {
         Task<Role> GetByName(string name);
+
+        Task<bool> ExistByName(string name);
+        Task<Role> CreateAsync(Role role);
     }
 }

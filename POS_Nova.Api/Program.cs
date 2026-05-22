@@ -8,6 +8,7 @@ using POS_Nova.Application.Interfaces.Services;
 using POS_Nova.Infrastructure.DependencyInjection;
 using POS_Nova.Infrastructure.Repositories;
 using POS_Nova.Infrastructure.Services;
+using POS_Nova.Api.Extensions;
 using System.Text;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -63,6 +64,7 @@ namespace POS_Nova.Api
             // Use Cases
             builder.Services.AddScoped<LoginService>();
             builder.Services.AddScoped<RegisterUserService>();
+            builder.Services.AddScoped<RegisterRoleService>();
 
             // Repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -135,6 +137,10 @@ namespace POS_Nova.Api
 
 
             app.UseHttpsRedirection();
+
+            // Global Exception Handler Middleware
+            app.UseGlobalExceptionHandler();
+
 
             // Polity Authorization
             app.UseAuthentication();

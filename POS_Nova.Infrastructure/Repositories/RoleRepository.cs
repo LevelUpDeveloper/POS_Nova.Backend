@@ -25,5 +25,16 @@ namespace POS_Nova.Infrastructure.Repositories
                 .FirstOrDefaultAsync(r => r.Name == name);
         }
 
+        public async Task<Role> CreateAsync(Role role)
+        {
+            await _context.Role.AddAsync(role);
+            await _context.SaveChangesAsync();
+            return role;
+        }
+
+        public async Task<bool> ExistByName(string name)
+        {
+            return await _context.Role.AnyAsync(r => r.Name == name);
+        }
     }
 }
