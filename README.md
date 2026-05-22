@@ -31,6 +31,8 @@ Ejecutar los scripts en el orden indicado por su prefijo numérico.:
 7. `07_Sales_Master.sql`
 8. `08_Transactions.sql`
 
+Ejecutar Script 09 para crear usuario admin y poder crear nuevos usuario (correo: admin@test.com / contraseña: 123456)
+9. `09_Create_User_Update_Table_User`
 
 ## Tecnologías utilizadas
 
@@ -46,4 +48,23 @@ Ejecutar los scripts en el orden indicado por su prefijo numérico.:
 - [x] Scripts de base de datos definidos
 - [x] Implementación de API
 - [x] Integración con EF Core
-- [ ] Casos de uso (Application Layer)
+- [x] Casos de uso (Application Layer)
+
+FASE 1 — AUTH CORE
+
+- [x] Login
+- [x] BCrypt
+- [x] JWT generation
+- [x] Roles
+- [x] Claims
+- [x] Clean Architecture
+
+FASE 2 — AUTH PROFESIONAL
+
+- [x] JWT Authentication
+- [x] Authorization
+- [x] Swagger JWT
+- [ ] Exception middleware
+- [x] CurrentUserService
+- [x] Policies
+
