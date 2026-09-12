@@ -64,7 +64,7 @@ FASE 2 — AUTH PROFESIONAL
 - [x] JWT Authentication
 - [x] Authorization
 - [x] Swagger JWT
-- [ ] Exception middleware
+- [x] Exception middleware
 - [x] CurrentUserService
 - [x] Policies
 
