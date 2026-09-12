@@ -31,7 +31,7 @@ namespace POS_Nova.Application.Features.Auth.UseCases
 
             // 1. Search User
             var user = await _users
-                .GetByEmailOrUserNameAsync(loginRequest.login);
+                .GetByEmailOrUserNameAsync(loginRequest.email);
 
             if (user == null)
             {

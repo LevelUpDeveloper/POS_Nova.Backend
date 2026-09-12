@@ -1,17 +1,23 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using POS_Nova.Api.Extensions;
+using POS_Nova.Api.Responses;
 using POS_Nova.Application.Features.Auth.UseCases;
 using POS_Nova.Application.Features.Auth.Validators;
+using POS_Nova.Application.Features.Products.DTOs;
+using POS_Nova.Application.Features.Products.UseCases;
+using POS_Nova.Application.Features.Products.Validators;
 using POS_Nova.Application.Interfaces.Persistence;
 using POS_Nova.Application.Interfaces.Services;
 using POS_Nova.Infrastructure.DependencyInjection;
 using POS_Nova.Infrastructure.Repositories;
 using POS_Nova.Infrastructure.Services;
-using POS_Nova.Api.Extensions;
+using System.Security.Claims;
 using System.Text;
-using FluentValidation;
-using FluentValidation.AspNetCore;
+
 
 
 namespace POS_Nova.Api
@@ -25,6 +31,18 @@ namespace POS_Nova.Api
 
             // Controllers 
             builder.Services.AddControllers();
+
+            // CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("FrondEndAngular", policy =>
+                {
+                    policy
+                        .WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             // Swagger  
             builder.Services.AddEndpointsApiExplorer();
@@ -59,16 +77,19 @@ namespace POS_Nova.Api
 
             // FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterRequestDtoValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<CategoryRegisterRequestDtoValidator>();
             builder.Services.AddFluentValidationAutoValidation();
 
             // Use Cases
             builder.Services.AddScoped<LoginService>();
             builder.Services.AddScoped<RegisterUserService>();
             builder.Services.AddScoped<RegisterRoleService>();
+            builder.Services.AddScoped<CategoryRegisterService>();
 
             // Repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository > ();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository> ();
 
             // Services
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -79,47 +100,83 @@ namespace POS_Nova.Api
             builder.Services.AddScoped<ICurrentUserService,
                 CurrentUserService>();
 
-            // AUTHENTICATION 
-            builder.Services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
+            // Authentication 
+            builder.Services.AddJwtAuthentication(builder.Configuration);
+            //builder.Services
+            //    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuer = true,
+            //            ValidateAudience = true,
+            //            ValidateLifetime = true,
+            //            ValidateIssuerSigningKey = true,
 
-                        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-                        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            //            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            //            ValidAudience = builder.Configuration["JwtSettings:Audience"],
 
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(
-                                builder.Configuration["JwtSettings:Key"]!
-                            )
-                        ),
+            //            IssuerSigningKey = new SymmetricSecurityKey(
+            //                Encoding.UTF8.GetBytes(
+            //                    builder.Configuration["JwtSettings:Key"]!
+            //                )
+            //            ),
 
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
+            //            NameClaimType = ClaimTypes.Name,
+            //            RoleClaimType = ClaimTypes.Role,
+
+            //            ClockSkew = TimeSpan.Zero
+            //        };
+
+            //        options.Events = new JwtBearerEvents
+            //        {
+            //            OnChallenge = async context =>
+            //            {
+            //                context.HandleResponse();
+
+            //                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            //                context.Response.ContentType = "application/json";
+
+            //                await context.Response.WriteAsJsonAsync(new ErrorResponse
+            //                {
+            //                    TraceId = context.HttpContext.TraceIdentifier,
+            //                    StatusCode = StatusCodes.Status401Unauthorized,
+            //                    Message = "Se requiere autenticación."
+            //                });
+            //            },
+
+            //            OnForbidden = async context =>
+            //            {
+            //                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            //                context.Response.ContentType = "application/json";
+
+            //                await context.Response.WriteAsJsonAsync(new ErrorResponse
+            //                {
+            //                    TraceId = context.HttpContext.TraceIdentifier,
+            //                    StatusCode = StatusCodes.Status403Forbidden,
+            //                    Message = "No tienes permisos para realizar esta operación."
+            //                });
+            //            }
+            //        };
+            //    });
 
 
             // Authorization policies
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdmin",
-                    policy => policy.RequireRole("Admin"));
+            builder.Services.AddAuthorizationPolicies();
+            //builder.Services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("RequireAdmin",
+            //        policy => policy.RequireRole("Admin"));
 
-                options.AddPolicy("RequireManager",
-                    policy => policy.RequireRole("Manager"));
+            //    options.AddPolicy("RequireManager",
+            //        policy => policy.RequireRole("Manager"));
 
-                options.AddPolicy("CanManageProducts",
-                    policy => policy.RequireRole("Admin", "Manager"));
+            //    options.AddPolicy("CanManageProducts",
+            //        policy => policy.RequireRole("Admin", "Manager"));
 
-                options.AddPolicy("CanManageUser",
-                    policy => policy.RequireRole("Admin", "Manager"));
-            });
+            //    options.AddPolicy("CanManageUser",
+            //        policy => policy.RequireRole("Admin", "Manager"));
+            //});
 
 
             // Database Conection Infraestructura
@@ -137,6 +194,8 @@ namespace POS_Nova.Api
 
 
             app.UseHttpsRedirection();
+
+            app.UseCors("FrondEndAngular");
 
             // Global Exception Handler Middleware
             app.UseGlobalExceptionHandler();

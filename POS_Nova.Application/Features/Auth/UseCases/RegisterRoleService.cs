@@ -30,7 +30,7 @@ namespace POS_Nova.Application.Features.Auth.UseCases
 
             var role = Role.Create(roleRegisterRequest.Name, roleRegisterRequest.Description);
 
-            await _roleRepository.CreateAsync(role);
+            await _roleRepository.CreateNewRole(role);
 
 
             return new RoleRegisterResponseDto 

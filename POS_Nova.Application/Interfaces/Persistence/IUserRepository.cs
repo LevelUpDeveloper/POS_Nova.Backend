@@ -17,6 +17,6 @@ namespace POS_Nova.Application.Interfaces.Persistence
         // Registration
         Task<bool> ExistByEmail(string email);
         Task<bool> ExistByUserName(string userName);
-        Task<User> CreateAsync(User user);
+        Task<User> CreateUser(User user);
     }
 }

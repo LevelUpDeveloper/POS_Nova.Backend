@@ -8,7 +8,7 @@ namespace POS_Nova.Application.Features.Auth.DTOs
 {
     public record LoginRequestDto
     {
-        public string login { get; set; }
+        public string email { get; set; }
         public string Password { get; set; }
     }
 }

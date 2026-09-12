@@ -12,6 +12,6 @@ namespace POS_Nova.Application.Interfaces.Persistence
         Task<Role> GetByName(string name);
 
         Task<bool> ExistByName(string name);
-        Task<Role> CreateAsync(Role role);
+        Task<Role> CreateNewRole(Role role);
     }
 }

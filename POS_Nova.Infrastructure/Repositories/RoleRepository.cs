@@ -25,7 +25,7 @@ namespace POS_Nova.Infrastructure.Repositories
                 .FirstOrDefaultAsync(r => r.Name == name);
         }
 
-        public async Task<Role> CreateAsync(Role role)
+        public async Task<Role> CreateNewRole(Role role)
         {
             await _context.Role.AddAsync(role);
             await _context.SaveChangesAsync();

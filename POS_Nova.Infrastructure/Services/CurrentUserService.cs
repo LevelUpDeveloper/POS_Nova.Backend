@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
-using POS_Nova.Application.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+
+using POS_Nova.Application.Interfaces.Services;
+
 
 
 namespace POS_Nova.Infrastructure.Services
@@ -50,6 +52,15 @@ namespace POS_Nova.Infrastructure.Services
                 .Where(x => x.Type == ClaimTypes.Role)
                 .Select(x => x.Value)
             ?? Enumerable.Empty<string>();
+
+
+        public string? UserName =>
+            _httpContextAccessor
+                .HttpContext?
+                .User?
+                .FindFirst(ClaimTypes.Name)?
+                .Value;
+
 
     }
 }

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
 using POS_Nova.Domain.Entities;
 using POS_Nova.Infrastructure.DataPersistence;
-using Microsoft.EntityFrameworkCore;
 using POS_Nova.Application.Interfaces.Persistence;
+
 
 namespace POS_Nova.Infrastructure.Repositories
 {
@@ -49,7 +51,7 @@ namespace POS_Nova.Infrastructure.Repositories
             return await _context.User.AnyAsync(u => u.UserName == userName);
         }
 
-        public async Task<User> CreateAsync(User user)
+        public async Task<User> CreateUser(User user)
         {
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();

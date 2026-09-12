@@ -14,13 +14,13 @@ namespace POS_Nova.Application.Features.Auth.UseCases
 {
     public class RegisterUserService
     {
-        private readonly IUserRepository _user;
+        private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IPasswordHasher _passwordHasher;
 
         public RegisterUserService(IUserRepository userRepository, IRoleRepository roleRepository, IPasswordHasher passwordHasher)
         {
-            _user = userRepository;
+            _userRepository = userRepository;
             _roleRepository = roleRepository;
             _passwordHasher = passwordHasher;
         }
@@ -29,7 +29,7 @@ namespace POS_Nova.Application.Features.Auth.UseCases
         public async Task<UserRegisterResponseDto> Execute(UserRegisterRequestDto userRegisterRequest)
         {
 
-            var registeredEmailExists = await _user.ExistByEmail(userRegisterRequest.Email);
+            var registeredEmailExists = await _userRepository.ExistByEmail(userRegisterRequest.Email);
 
             if (registeredEmailExists)
             {
@@ -37,7 +37,7 @@ namespace POS_Nova.Application.Features.Auth.UseCases
             }
 
 
-            var registeredUserNameExists = await _user.ExistByUserName(userRegisterRequest.UserName);
+            var registeredUserNameExists = await _userRepository.ExistByUserName(userRegisterRequest.UserName);
 
             if (registeredUserNameExists)
             {
@@ -61,12 +61,12 @@ namespace POS_Nova.Application.Features.Auth.UseCases
             user.AssignRole(role);
 
 
-            await _user.CreateAsync(user);
+            await _userRepository.CreateUser(user);
 
             return new UserRegisterResponseDto
             {   
-                UserName = userRegisterRequest.UserName,
-                Email = userRegisterRequest.Email
+                UserName = user.UserName,
+                Email = user.Email
             };
 
         }
