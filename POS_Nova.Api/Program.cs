@@ -78,6 +78,7 @@ namespace POS_Nova.Api
             // FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterRequestDtoValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<CategoryRegisterRequestDtoValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<DocumentTypeRequestDtoValidator>();
             builder.Services.AddFluentValidationAutoValidation();
 
             // Use Cases
@@ -85,11 +86,13 @@ namespace POS_Nova.Api
             builder.Services.AddScoped<RegisterUserService>();
             builder.Services.AddScoped<RegisterRoleService>();
             builder.Services.AddScoped<CategoryRegisterService>();
+            builder.Services.AddScoped<DocumentTypeRegisterService>();
 
             // Repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IRoleRepository, RoleRepository > ();
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository> ();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
 
             // Services
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -102,82 +105,11 @@ namespace POS_Nova.Api
 
             // Authentication 
             builder.Services.AddJwtAuthentication(builder.Configuration);
-            //builder.Services
-            //    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options =>
-            //    {
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateIssuer = true,
-            //            ValidateAudience = true,
-            //            ValidateLifetime = true,
-            //            ValidateIssuerSigningKey = true,
-
-            //            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-            //            ValidAudience = builder.Configuration["JwtSettings:Audience"],
-
-            //            IssuerSigningKey = new SymmetricSecurityKey(
-            //                Encoding.UTF8.GetBytes(
-            //                    builder.Configuration["JwtSettings:Key"]!
-            //                )
-            //            ),
-
-            //            NameClaimType = ClaimTypes.Name,
-            //            RoleClaimType = ClaimTypes.Role,
-
-            //            ClockSkew = TimeSpan.Zero
-            //        };
-
-            //        options.Events = new JwtBearerEvents
-            //        {
-            //            OnChallenge = async context =>
-            //            {
-            //                context.HandleResponse();
-
-            //                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            //                context.Response.ContentType = "application/json";
-
-            //                await context.Response.WriteAsJsonAsync(new ErrorResponse
-            //                {
-            //                    TraceId = context.HttpContext.TraceIdentifier,
-            //                    StatusCode = StatusCodes.Status401Unauthorized,
-            //                    Message = "Se requiere autenticación."
-            //                });
-            //            },
-
-            //            OnForbidden = async context =>
-            //            {
-            //                context.Response.StatusCode = StatusCodes.Status403Forbidden;
-            //                context.Response.ContentType = "application/json";
-
-            //                await context.Response.WriteAsJsonAsync(new ErrorResponse
-            //                {
-            //                    TraceId = context.HttpContext.TraceIdentifier,
-            //                    StatusCode = StatusCodes.Status403Forbidden,
-            //                    Message = "No tienes permisos para realizar esta operación."
-            //                });
-            //            }
-            //        };
-            //    });
 
 
             // Authorization policies
             builder.Services.AddAuthorizationPolicies();
-            //builder.Services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("RequireAdmin",
-            //        policy => policy.RequireRole("Admin"));
-
-            //    options.AddPolicy("RequireManager",
-            //        policy => policy.RequireRole("Manager"));
-
-            //    options.AddPolicy("CanManageProducts",
-            //        policy => policy.RequireRole("Admin", "Manager"));
-
-            //    options.AddPolicy("CanManageUser",
-            //        policy => policy.RequireRole("Admin", "Manager"));
-            //});
-
+ 
 
             // Database Conection Infraestructura
             builder.Services.AddInfrastructure(builder.Configuration);

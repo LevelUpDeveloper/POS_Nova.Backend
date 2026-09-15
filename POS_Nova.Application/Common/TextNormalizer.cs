@@ -21,7 +21,7 @@ namespace POS_Nova.Application.Common
             );
         }
 
-        // Format the name so that the first letter is uppercase and the rest are lowercase
+        // Format the name: first letter uppercase and the rest lowercase
         public static string FormatName(string cadena)
         {
             var normalized = NormalizeSpaces(cadena);
@@ -33,6 +33,17 @@ namespace POS_Nova.Application.Common
 
             return char.ToUpperInvariant(normalized[0]) +
                    normalized[1..];
+        }
+
+        // Convert all the text to uppercase
+        public static string ToUpperCase(string cadena)
+        {
+            var normalized = NormalizeSpaces(cadena);
+
+            if (string.IsNullOrEmpty(normalized))
+                return string.Empty;
+
+            return normalized.ToUpperInvariant();
         }
 
 

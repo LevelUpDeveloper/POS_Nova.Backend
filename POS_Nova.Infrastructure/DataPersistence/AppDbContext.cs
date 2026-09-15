@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using POS_Nova.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,5 +20,15 @@ namespace POS_Nova.Infrastructure.DataPersistence
         public DbSet<Role> Role { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<DocumentType> DocumentType { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<DocumentType>()
+                .ToTable("DocumentType", "Security");
+        }
     }
 }
