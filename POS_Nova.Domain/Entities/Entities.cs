@@ -11,14 +11,14 @@ namespace POS_Nova.Domain.Entities
     [Table("Product", Schema = "Inventory")]
     public class Product
     {
-        public int id { get; set; }
-        public string code { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int CategoryId { get; set; }
-        public int ProviderId { get; set; }
-        public int Stock { get; set; }
-        public decimal SellPrice { get; set; }
-        public string ImageUrl { get; set; }
+        public int id { get; private set; }
+        public string code { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public int CategoryId { get; private set; }
+        public int ProviderId { get; private set; }
+        public int Stock { get; private set; }
+        public decimal SellPrice { get; private set; }
+        public string ImageUrl { get; private set; }
     }
 }

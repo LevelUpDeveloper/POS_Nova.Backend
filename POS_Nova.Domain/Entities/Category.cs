@@ -25,14 +25,14 @@ namespace POS_Nova.Domain.Entities
         }
 
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime AuditCreateDate { get; set; }
-        public int AuditCreatedBy { get; set; }
-        public DateTime? AuditUpdateDate { get; set; }
-        public int? AuditUpdatedBy { get; set; }
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public bool IsActive { get; private set; }
+        public DateTime AuditCreateDate { get; private set; }
+        public int AuditCreatedBy { get; private set; }
+        public DateTime? AuditUpdateDate { get; private set; }
+        public int? AuditUpdatedBy { get; private set; }
 
     }
 }

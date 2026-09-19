@@ -21,6 +21,7 @@ namespace POS_Nova.Infrastructure.DataPersistence
         public DbSet<UserRole> UserRole { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<DocumentType> DocumentType { get; set; }
+        public DbSet<Provider> Provider { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
