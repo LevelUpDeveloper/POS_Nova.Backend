@@ -14,6 +14,7 @@ namespace POS_Nova.Application.Features.Products.DTOs
         public string DocumentNumber { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        public bool IsActive { get; set; }
         public DateTime AuditCreateDate { get; set; }
         public string AuditCreatedBy { get; set; }
         //public DateTime AuditUpdateDate { get; set; }

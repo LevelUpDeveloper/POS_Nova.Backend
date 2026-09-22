@@ -14,19 +14,19 @@ namespace POS_Nova.Application.Features.Products.Validators
         {
             RuleFor(x => x.Code)
                 .NotEmpty()
-                .WithMessage("El Código del documento es obligatorio");
+                .WithMessage("El Código del Documento es obligatorio");
 
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("El Nombre del documento es obligatoria");
+                .WithMessage("El Nombre del Documento es obligatorio");
 
             RuleFor(x => x.Abbreviation)
                 .NotEmpty()
-                .WithMessage("La Abreviación del documento es obligatoria");
+                .WithMessage("La Abreviación del Documento es obligatoria");
 
             RuleFor(x => x.IsActive)
                 .NotNull()
-                .WithMessage("Debe indicar el documento estara Activo/Desactivado");
+                .WithMessage("Debe indicar si el Documento estara Activo/Desactivado");
         }
     }
 }

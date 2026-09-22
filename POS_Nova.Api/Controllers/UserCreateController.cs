@@ -20,7 +20,7 @@ namespace POS_Nova.Api.Controllers
             _RegisterUserService = userRepository;
         }
 
-        [Authorize(Policy = "CanManageUser")]
+        [Authorize(Policy = "CanManagerUser")]
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserRegisterRequestDto userRegisterRequest)
         {

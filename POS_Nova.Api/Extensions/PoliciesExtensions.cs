@@ -17,11 +17,11 @@
                     policy => policy.RequireRole("Manager"));
 
                 options.AddPolicy(
-                    "CanManageProducts",
+                    "CanManagerProducts",
                     policy => policy.RequireRole("Admin", "Manager"));
 
                 options.AddPolicy(
-                    "CanManageUser",
+                    "CanManagerUser",
                     policy => policy.RequireRole("Admin", "Manager"));
             });
 

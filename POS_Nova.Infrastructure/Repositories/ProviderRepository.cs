@@ -29,10 +29,17 @@ namespace POS_Nova.Infrastructure.Repositories
             return providerNameNormalizer;
         }
 
+        public async Task<bool> ProviderNameExists(string providerName)
+        {
+            bool providerNameExist = await _appDbContext.Provider
+                .AnyAsync(c => c.Name == providerName);
+            return providerNameExist;
+        }
+
         public async Task<string> ProviderEmailNormalizer(string providerEmail)
         {
             string providerEmailNormalizer = TextNormalizer.NormalizeSpaces(providerEmail);
-            providerEmailNormalizer = TextNormalizer.ToUpperCase(providerEmailNormalizer);
+            providerEmailNormalizer = TextNormalizer.ToLowerCase(providerEmailNormalizer);
             return providerEmailNormalizer;
         }
 
@@ -48,6 +55,14 @@ namespace POS_Nova.Infrastructure.Repositories
             bool providerDocumentExist = await _appDbContext.DocumentType
                 .AnyAsync(c => c.Id == providerDocumentId);
             return providerDocumentExist;
+        }
+
+        public async Task<string> ProviderDocumentName(int providerDocumentId)
+        {
+            return await _appDbContext.DocumentType
+                .Where(c => c.Id == providerDocumentId)
+                .Select(c => c.Name)
+                .FirstOrDefaultAsync() ?? string.Empty;
         }
 
         public async Task<bool> ProviderPhoneChecker(string providerPhone)

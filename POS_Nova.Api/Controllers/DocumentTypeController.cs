@@ -6,18 +6,18 @@ using POS_Nova.Application.Features.Products.UseCases;
 
 namespace POS_Nova.Api.Controllers
 {
-    [Route("api/controllerRegister")]
+    [Route("api/documentType")]
     [ApiController]
-    public class DocumentTypeRegisterController : ControllerBase
+    public class DocumentTypeController : ControllerBase
     {
         private readonly DocumentTypeRegisterService _documentTypeRegisterService;
 
-        public DocumentTypeRegisterController(DocumentTypeRegisterService documentTypeRegisterService)
+        public DocumentTypeController(DocumentTypeRegisterService documentTypeRegisterService)
         {
             _documentTypeRegisterService = documentTypeRegisterService;
         }
 
-        [Authorize(Policy = "CanManageUser")]
+        [Authorize(Policy = "CanManagerUser")]
         [HttpPost]
         public async Task<IActionResult> CreateDocumentType(DocumentTypeRegisterRequestDto documentTypeRegisterRequestDto)
         {

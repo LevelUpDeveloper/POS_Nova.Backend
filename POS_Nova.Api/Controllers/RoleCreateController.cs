@@ -17,7 +17,7 @@ namespace POS_Nova.Api.Controllers
             _registerRoleService = registerRoleService;
         }
 
-        [Authorize(Policy = "CanManageUser")]
+        [Authorize(Policy = "CanManagerUser")]
         [HttpPost]
         public async Task<IActionResult> CreateRole(RoleRegisterRequestDto roleRegisterRequest)
         {

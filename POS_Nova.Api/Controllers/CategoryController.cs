@@ -7,18 +7,18 @@ using POS_Nova.Application.Features.Products.UseCases;
 
 namespace POS_Nova.Api.Controllers
 {
-    [Route("api/categoriesRegister")]
+    [Route("api/categories")]
     [ApiController]
-    public class CategoryRegisterController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         private readonly CategoryRegisterService _categoryRegisterService;
 
-        public CategoryRegisterController(CategoryRegisterService categoryRegisterService)
+        public CategoryController(CategoryRegisterService categoryRegisterService)
         {
             _categoryRegisterService = categoryRegisterService;
         }
 
-        [Authorize(Policy = "CanManageUser")]
+        [Authorize(Policy = "CanManagerUser")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryRegisterRequestDto categoryRegisterRequestDto) 
         {

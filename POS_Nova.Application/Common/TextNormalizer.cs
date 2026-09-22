@@ -46,6 +46,16 @@ namespace POS_Nova.Application.Common
             return normalized.ToUpperInvariant();
         }
 
+        // Convert all the text to lowercase
+        public static string ToLowerCase(string cadena)
+        {
+            var normalized = NormalizeSpaces(cadena);
+
+            if (string.IsNullOrEmpty(normalized))
+                return string.Empty;
+
+            return normalized.ToLowerInvariant();
+        }
 
     }
 }

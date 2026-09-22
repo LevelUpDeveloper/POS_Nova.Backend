@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace POS_Nova.Domain.Entities
 {
+    [Table("Provider", Schema = "Purchasing")]
     public class Provider
     {
         public static Provider Create(string name, string email, int documentTypeId, string documentNumber, string address, string phone, bool isActive, DateTime auditCreateDate, int auditCreatedBy)
@@ -25,6 +27,7 @@ namespace POS_Nova.Domain.Entities
         }
 
 
+        public int Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public int DocumentTypeId { get; private set; }

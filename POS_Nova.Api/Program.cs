@@ -79,6 +79,7 @@ namespace POS_Nova.Api
             builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterRequestDtoValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<CategoryRegisterRequestDtoValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<DocumentTypeRequestDtoValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<ProviderRegisterRequestDtoValidator>();
             builder.Services.AddFluentValidationAutoValidation();
 
             // Use Cases
@@ -87,12 +88,14 @@ namespace POS_Nova.Api
             builder.Services.AddScoped<RegisterRoleService>();
             builder.Services.AddScoped<CategoryRegisterService>();
             builder.Services.AddScoped<DocumentTypeRegisterService>();
+            builder.Services.AddScoped<ProviderRegisterService>();
 
             // Repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+            builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 
             // Services
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -100,8 +103,7 @@ namespace POS_Nova.Api
 
 
             builder.Services.AddHttpContextAccessor();
-            builder.Services.AddScoped<ICurrentUserService,
-                CurrentUserService>();
+            builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             // Authentication 
             builder.Services.AddJwtAuthentication(builder.Configuration);

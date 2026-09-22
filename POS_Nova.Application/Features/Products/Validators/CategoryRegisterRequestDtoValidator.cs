@@ -14,15 +14,15 @@ namespace POS_Nova.Application.Features.Products.Validators
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("El nombre de la categoría es obligatorio");
+                .WithMessage("El nombre de la Categoría es obligatorio");
 
             RuleFor(x => x.Description)
                 .NotEmpty()
-                .WithMessage("La descripción de la categoría es obligatoria");
+                .WithMessage("La descripción de la Categoría es obligatoria");
 
             RuleFor(x => x.IsActive)
                 .NotNull()
-                .WithMessage("Debe indicar si la categoría estara activa/desactivada");
+                .WithMessage("Debe indicar si la Categoría estara activada/desactivada");
         }
     }
 }

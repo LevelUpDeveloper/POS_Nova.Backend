@@ -18,22 +18,22 @@ namespace POS_Nova.Api.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateProductDto dto)
-        {
-            var product = new Product
-            {
-                Name = dto.Name,
-                Description = dto.Description,
-                CategoryId = dto.CategoryId,
-                ProviderId = dto.ProviderId,
-                Stock = dto.Stock,
-                SellPrice = dto.SellPrice,
-                ImageUrl = dto.ImageUrl
-            };
-            await _productRepository.AddAsync(product);
+        //[HttpPost]
+        //public async Task<IActionResult> Create(CreateProductDto dto)
+        //{
+        //    var product = new Product
+        //    {
+        //        Name = dto.Name,
+        //        Description = dto.Description,
+        //        CategoryId = dto.CategoryId,
+        //        ProviderId = dto.ProviderId,
+        //        Stock = dto.Stock,
+        //        SellPrice = dto.SellPrice,
+        //        ImageUrl = dto.ImageUrl
+        //    };
+        //    await _productRepository.AddAsync(product);
 
-            return Ok(product);
-        }
+        //    return Ok(product);
+        //}
     }
 }
