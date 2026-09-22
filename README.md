@@ -32,6 +32,7 @@ Ejecutar los scripts en el orden indicado por su prefijo numérico.:
 8. `08_Transactions.sql`
 
 Ejecutar Script 09 para crear usuario admin y poder crear nuevos usuario (correo: admin@test.com / contraseña: 123456)
+
 9. `09_Create_User_Update_Table_User`
 
 ## Tecnologías utilizadas
@@ -67,4 +68,14 @@ FASE 2 — AUTH PROFESIONAL
 - [x] Exception middleware
 - [x] CurrentUserService
 - [x] Policies
+
+FASE 3 — SECURITY ENTERPRISE
+
+- [ ] Refresh Tokens
+- [ ] Revoke tokens
+- [ ] Email confirmation
+- [ ] Reset password
+- [ ] Rate limiting
+- [ ] 2FA
+
 
